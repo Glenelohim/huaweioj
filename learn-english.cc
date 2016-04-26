@@ -88,7 +88,7 @@ string Exchange(int small_than_thun)  //except 0
 	return res;
 }
 
-string DoExchange(long num)
+string DoExchange(long input)
 {
 	const long BILLION  = 1000000000;
 	const long MILLION  = 1000000;
