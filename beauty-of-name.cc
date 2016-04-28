@@ -16,7 +16,7 @@ int MaxScore(string name)
 	int chs = 26;
 	memset(score, 0, sizeof(score));
 
-	for (int i=0; i<name.size(); i++)
+	for (int i=0, len=name.size(); i<len; i++)
 	{
 		int temp = tolower(name[i]) - 'a';
 		score[temp]++;
