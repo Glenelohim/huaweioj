@@ -57,7 +57,7 @@ int main()
 		}
 		else
 		{
-			cout << "NO" << endl;
+			cout << "No" << endl;
 		}
 
 		delete[] preorder;
