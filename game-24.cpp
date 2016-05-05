@@ -109,6 +109,17 @@ bool Game24Points(int a, int b, int c, int d)
 
 int main()
 {
-	cout << Game24Points(7, 2, 1, 10) << endl;
+	int a = 0, b = 0, c = 0, d = 0;
+	while (cin >> a >> b >> c >> d)
+	{
+		if (Game24Points(a, b, c, d))
+		{
+			cout << "true" << endl;
+		}
+		else
+		{
+			cout << "false" << endl;
+		}
+	}
 	return 0;
 }
