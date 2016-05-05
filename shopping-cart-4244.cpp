@@ -108,11 +108,130 @@ int main()
 		//cmd b
 		else if ('b' == cmd[0])
 		{
-			//do the buy-----------------**********
+			// trolley is empty
+			if (0 == shopping_trolley.size())
+			{
+				cout << "E005" << endl;
+				continue;
+			}
 
-			//clear the trolley
-			shopping_trolley.clear();
-		}
+			//do the buy
+			int total_goods_0[3] = {0, 0, 0};
+			int total_goods_1[2] = {0, 0};
+			int total_goods_2[2] = {0, 0};
+			int goods_ser[3] = {0, 0, 0};  //the counts of every goods
+			GoodsAndItsCount(goods_ser, shopping_trolley);  //get the goods_ser
+
+			//initial the total_goods_x
+			total_goods_0[0] = 10 * goods_ser[0];
+			total_goods_0[1] = 9 * goods_ser[0];
+			if (total_goods_0[0] >= 100)
+			{
+				total_goods_0[2] = total_goods_0[0] - total_goods_0[0]/100*18;
+			}
+			else
+			{
+				total_goods_0[2] = total_goods_0[0];
+			}
+
+			total_goods_1[0] = 120 * goods_ser[1];
+			if (total_goods_1[0] >= 200)
+			{
+				total_goods_1[1] = total_goods_1[0] - total_goods_1[0]/200*40;
+			}
+			else
+			{
+				total_goods_1[1] = total_goods_1[0];
+			}
+
+			total_goods_2[0] = 30 * goods_ser[2];
+			total_goods_2[1] = 15 * goods_ser[2];
+
+
+			//calculate
+			int origin_money = 0, count_money = 0x7fffffff;
+			int final_scheme = -1; //-1: can not total count  0: rank count 1: zhe shang zhe
+			for (int i=0; i<3; i++)
+			{
+				for (int j=0; j<2; j++)
+				{
+					for (int k=0; k<2; k++)
+					{
+						int sum = total_goods_0[i] + total_goods_1[j] + total_goods_2[k];
+						if (sum < 500)
+						{
+							if (sum < count_money)
+							{
+								count_money = sum;
+								origin_money = sum;
+								final_scheme = -1;
+							}
+						}
+						else
+						{
+							int count1 = 0, count2 = 0;
+							if (shopping_card.remain_rank >= 120)
+								count1 = sum - 120;
+							else
+								count1 = sum - shopping_card.remain_rank;
+							count2 = sum * 0.8;
+
+							if (count1 < count2)
+							{
+								if (count1 < count_money)
+								{
+									count_money = count1;
+									origin_money = sum;
+									final_scheme = 0;
+								}
+							}
+							else
+							{
+								if (count2 <= count_money)
+								{
+									count_money = count2;
+									origin_money = sum;
+									final_scheme = 1;
+								}
+							}
+						} // else
+					} // for k
+				} // for j
+			} //for i
+			if (count_money > shopping_card.remain_money)
+			{
+				cout << "E006" << endl;
+			}
+			else
+			{
+				int cost_money = count_money;
+				int cost_rank = 0;
+				int increse_rank = count_money / 10;
+
+				shopping_card.remain_money -= count_money;
+				if (0 == final_scheme)
+				{
+					if (shopping_card.remain_rank >= 120)
+					{
+						shopping_card.remain_rank -= 120;
+						cost_rank = 120;
+					}
+					else
+					{
+						cost_rank = shopping_card.remain_rank;
+						shopping_card.remain_rank = 0;
+					}
+				}
+				shopping_card.remain_rank += increse_rank;
+				//clear the trolley
+				shopping_trolley.clear();
+
+				cout << cost_money << endl 
+					 << cost_rank << endl
+					 << increse_rank << endl;
+			}
+
+		} //cmd b
 
 
 		//cmd c
@@ -127,7 +246,7 @@ int main()
 			}
 			else
 			{
-				if (0 == shopping_trolley.size()) //trolly is empty
+				if (0 == shopping_trolley.size()) //trolley is empty
 				{
 					cout << "E005" << endl;
 				}
